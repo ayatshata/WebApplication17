@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Employees</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+        }
+
+        .emp {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employees</h1>
+    <div id="list"></div>
+
+    <script>
+    async function load() {
+      try {
+        const res = await fetch("/api/employee");
+        const data = await res.json();
+        const c = document.getElementById("list");
+        c.innerHTML = "";
+        data.forEach(e => {
+          const el = document.createElement("div");
+          el.className = "emp";
+          el.innerHTML = `
+            <h3>${e.name}</h3>
+            <p>Dept: ${e.dept}</p>
+            <p>Manager: ${e.manager}</p>
+            <p>Date: ${e.date}</p>
+            <p>Skills: ${e.skills}</p>
+          `;
+          c.appendChild(el);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    load();
+    </script>
+</body>
+</html>

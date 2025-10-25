@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Departments</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+        }
+
+        .dept {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Departments</h1>
+    <div id="list"></div>
+
+    <script>
+    async function load() {
+      try {
+        const res = await fetch("/api/department");
+        const data = await res.json();
+        const c = document.getElementById("list");
+        c.innerHTML = "";
+        data.forEach(d => {
+          const el = document.createElement("div");
+          el.className = "dept";
+          el.innerHTML = `
+            <h3>${d.name}</h3>
+            <p>Manager: ${d.manager}</p>
+            <p>Location: ${d.location}</p>
+            <p>Students: ${d.numOfStd}</p>
+            <p style="color:${d.color}">${d.message}</p>
+          `;
+          c.appendChild(el);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    load();
+    </script>
+</body>
+</html>
